@@ -1,0 +1,98 @@
+ENTITIES
+========
+state
+-----
+year
+income
+name
+
+hate group
+----------
+type
+
+education
+---------
+level
+
+vote
+----
+type
+
+political party
+---------------
+name
+
+RELATIONS
+=========
+(hate group) existed in (state)
+-------------------------------
+hate group
+state
+chapters
+year
+
+(state) attained (education)
+----------------------------
+state
+education
+percentage
+year
+
+(state) casted votes for (political party)
+------------------------------------------
+state
+political party
+vote type
+quantity
+year
+
+create table State(name varchar(2),year int, avg_income float);
+create table HateGroup(type varchar(32));
+create table Education(level varchar(12));
+create table PoliticalParty(name varchar(13));
+create table Vote(type varchar(9));
+
+create table ExistedIn(hate_group varchar(32) references HateGroup(name), chapters int, state varchar(2) references State(name), year int);
+create table Attained(state varchar(2) references State(name), education_level varchar(12) references Education(level), percentage float, year int);
+
+create table CastedVotesFor(year int, state varchar(2) references State(name), vote_type varchar(9) references Vote(type), party varchar(13) references PoliticalParty(name), quantity int);
+
+load data infile '/Users/gabrielszabo/336/project/data/data/prepared-data/state-income.csv' into table State fields terminated by ',';
+
+insert into PoliticalParty values('New Alliance');
+insert into PoliticalParty values('Democratic');
+insert into PoliticalParty values('Republican');
+insert into PoliticalParty values('Libertarian');
+insert into PoliticalParty values('Green');
+insert into PoliticalParty values('Constitution');
+insert into PoliticalParty values('Reform');
+insert into PoliticalParty values('Natural Law');
+insert into PoliticalParty values('Independent');
+insert into Education values("Bachelor's");
+insert into Education values('High School');
+
+insert into HateGroup values('Anti-Gay');
+insert into HateGroup values('Anti-Immigrant');
+insert into HateGroup values('Anti-LGBT');
+insert into HateGroup values('Anti-Muslim');
+insert into HateGroup values('Black Separatist');
+insert into HateGroup values('Christian Identity');
+insert into HateGroup values('General Hate');
+insert into HateGroup values('Holocaust Denial');
+insert into HateGroup values('Identity');
+insert into HateGroup values('KKK');
+insert into HateGroup values('Neo-Confederate');
+insert into HateGroup values('Neo-Nazi');
+insert into HateGroup values('Other');
+insert into HateGroup values('Racist Music');
+insert into HateGroup values('Racist Skinhead');
+insert into HateGroup values('Radical Catholic');
+insert into HateGroup values('White Nationalist');
+
+
+load data infile '/Users/gabrielszabo/336/project/data/prepared-data/state-education.csv' into table Attained fields terminated by ',';
+load data infile '/Users/gabrielszabo/336/project/data/prepared-data/states-voting.csv' into table CastedVotesFor fields terminated by ',';
+load data infile '/Users/gabrielszabo/336/project/data/prepared-data/state-hate.csv' into table ExistedIn fields terminated by ',';
+
+create user 'app'@'localhost' identified by 'password';
+grant select on project.* to 'app'@'localhost';
