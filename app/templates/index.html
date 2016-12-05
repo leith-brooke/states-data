@@ -5,21 +5,41 @@
 	<link rel="stylesheet" type="text/css" href="/static/css/index.css">
 
 	<script src="/static/javascript/lib/raphael.js"></script>
-	<script src="/static/javascript/jquery-3.1.1.min.js"></script>
-	<script src="/static/javascript/color.jquery.js"></script>
+	<script src="/static/javascript/jquery-3.1.1.min.js"></script>	
 	<script src="/static/javascript/jquery.usmap.js"></script>
 	<script src="/static/javascript/map.js"></script>
 	<script src="/static/javascript/bootstrap.min.js"></script>
 </head>
 <body>
 
-	<div class="section">
-		<h1>AYY</h1>
+	<div class="section" id="map-container">
+		<h1>United States Data for
+			<select class="year-selector" name="year"id="year">
+				<option disabled selected>Year</option>
+				{% for year in years %}
+				<option value={{ year }}>{{ year }}</option>
+				{% endfor %}
+			</select>
+		</h1>
 	</div>
 	<div class="section map-section">
-		<div id="alert">Click a state to see its data</div>
+		<p>Recolor map based on 
+			<select class="color-criteria-selector" name="color-criteria-selector" id="color-criteria-selector">
+				<option selected value='election'>votes</option>
+				<option value='bachelors'>% of population with bachelor's degree or higher</option>
+				<option value='hs'>% of population with high school diploma or higher</option>
+				<option value='income'>average household income</option>
+				<option value='hate'>number of hate groups</option>
+			</select>
+		</p>
+		<p>or</p>
+		<p id="alert">Click a state to see its data</p>
   		<!-- <div id="map" style="width: 930px; height: 630px"></div> -->
-		<div id="map" style="width: 590px; height: 400px"></div>
+		<div id="map"></div>
+	</div>
+
+	<div class="section nation-data-section">
+
 	</div>
 </body>
 </html>

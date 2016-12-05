@@ -65,7 +65,7 @@
     
     // The styles for the hover
     'stateHoverStyles': {
-      fill: "#33c",
+      fill: "#FF0",
       stroke: "#000",
       scale: [1.1, 1.1]
     },
@@ -78,7 +78,6 @@
     
     // State specific hover styles
     'stateSpecificHoverStyles': {},
-    
     
     // Events
     'click': null,
@@ -115,7 +114,7 @@
     
     // The styles for the hover
     'labelBackingHoverStyles': {
-      fill: "#33c",
+      fill: "#FF0",
       stroke: "#000"
     },
     
