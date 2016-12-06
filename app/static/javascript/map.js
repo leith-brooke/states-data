@@ -21,6 +21,34 @@ $(document).ready(function() {
 		getMapColors($( '#color-criteria-selector' ).val());
 	});
 
+	$('#form-button').click(function(e){
+		e.preventDefault();
+		var year = $( '#year' ).val();
+		if (year == null){
+			alert('please select year');
+		}
+		$.ajax({
+			url: ('/query/' + year),
+			type: 'POST',
+			data: $('#post-form').serialize(),
+			success: function(response){
+				console.log(response);
+
+				var stateColors = Object.keys(response);
+				var stateStyles = new Object();
+				
+				stateColors.forEach(function(state){
+					stateStyles[state] = new Object;
+					stateStyles[state]['fill'] = response[state];
+				});
+				console.log(stateStyles);
+				$("#map-key").empty();
+				generateMap(stateStyles);
+
+			}
+		});
+	});
+
 	function prepareAccordions(){
 		var acc = document.getElementsByClassName("accordion");
 		var accordionIndex;
@@ -71,15 +99,15 @@ $(document).ready(function() {
 			hateGroupsAccordion = hateGroupsAccordion + tbody + "</tbody></table></div>";
 		}
 		
-		if(stateData.election_results != null){
+		if(stateData.election_responses != null){
 			electionAccordion = '<button class="accordion">Election Results</button><div class="panel"><table><thead><tr><td> </td></tr></thead><tbody>';
-			var parties = Object.keys(stateData.election_results);
+			var parties = Object.keys(stateData.election_responses);
 			var electionBody = '';
 			parties.forEach(function(party){
 				electionBody = electionBody + "<tr><td><h5>" + party + " Party</h5></td></tr>";
-				var voteTypes = Object.keys(stateData.election_results[party]);
+				var voteTypes = Object.keys(stateData.election_responses[party]);
 				voteTypes.forEach(function(voteType){
-					electionBody = electionBody + "<tr><td>" + voteType + " Votes:</td><td>" + stateData.election_results[party][voteType] + "</td></tr>";
+					electionBody = electionBody + "<tr><td>" + voteType + " Votes:</td><td>" + stateData.election_responses[party][voteType] + "</td></tr>";
 				});
 
 			});
@@ -120,21 +148,20 @@ $(document).ready(function() {
 					belowColor = '';
 					break;
 			}
-			aboveP = '<p>Greater than national average: ' + '<div style="width: 100px;height: 20px;background:' + aboveColor + '"></div></p>';
-			belowP = '<p>Less than national average: ' + '<div style="width: 100px;height: 20px;background:' + belowColor + '"></div></p>';
+			aboveP = '<p class="color-key"<p>Greater than national average: ' + '<div style="width: 100px;height: 20px;background:' + aboveColor + '"></div></p></p>';
+			belowP = '<p class="color-key"<p>Less than national average: ' + '<div style="width: 100px;height: 20px;background:' + belowColor + '"></div></p></p>';
 			avgStatement = '<div id="map-key"><p>National average: ' + avg + '</p>';
 			avgData = avgStatement + aboveP + belowP + '</div>';
-			$("#alert").after(avgData);
+			$("#map-section").after(avgData);
 			return;
 		}
 		
 		var demP, demColor = '#290EE9';
 		var repP, repColor = '#E91D0E';
 
-		demP = '<p>Democratic Party: ' + '<div style="width: 100px;height: 20px;background:' + demColor + '"></div></p>';
-		repP = '<p>Republican Party: ' + '<div style="width: 100px;height: 20px;background:' + repColor + '"></div></p>';
-		$("#alert").after('<div id="map-key">' + demP + repP + '</div>');
-
+		demP = '<p class="color-key"<p>Democratic Party: ' + '<div style="width: 100px;height: 20px;background:' + demColor + '"></div></p></p>';
+		repP = '<p class="color-key"<p>Republican Party: ' + '<div style="width: 100px;height: 20px;background:' + repColor + '"></div></p></p>';
+		$("#map-section").after('<div id="map-key">' + demP + repP + '</div>');
 	}
 
 	function getMapColors(criteria){
@@ -147,19 +174,17 @@ $(document).ready(function() {
 				year = 2016;
 		}
 
-		$.ajax({url:('/colors/' + criteria + '/' + year), success: function(result){
+		$.ajax({url:('/colors/' + criteria + '/' + year), success: function(response){
 
-				var stateColors = Object.keys(result);
+				var stateColors = Object.keys(response);
 				var stateStyles = new Object();
 				
-				setAverageData(criteria, result['avg']);
-				
+				setAverageData(criteria, response['avg']);
 				stateColors.forEach(function(state){
-					console.log(result[state]);
 					stateStyles[state] = new Object;
-					stateStyles[state]['fill'] = result[state];
+					stateStyles[state]['fill'] = response[state];
 				});
-
+				console.log(stateStyles);
 				generateMap(stateStyles);
 		},
 		statusCode:{
@@ -171,7 +196,7 @@ $(document).ready(function() {
 
 	function generateMap(mapcolors){
 		$('#map').remove();
-
+		console.log(mapcolors);
 		var mapString = '<div id="map" style="width: 590px; height: 400px"></div>';
 		$( '.map-section' ).append(mapString);
 		$('#map').usmap({
@@ -188,15 +213,14 @@ $(document).ready(function() {
 				if(year == null){
 					alert("Please select a year...")
 				}
-				$.ajax({url:("/year/" + year + "/state/" + stateName), success: function(result){
+				$.ajax({url:("/year/" + year + "/state/" + stateName), success: function(response){
 
 					$(".accordion-container").remove();
-					$(".map-section").after(addStateData(year, result));
+					$("#map-key").after(addStateData(year, response));
 					prepareAccordions();
-					console.log(result);
+					console.log(response);
 				}});
 			}
 		});
 	}
-
 });

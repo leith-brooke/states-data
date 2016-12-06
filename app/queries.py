@@ -11,6 +11,10 @@ def round_year_to_decade(year):
 	elif year % 10 < 5:
 		return year - (year % 10)
 
+def execute_query(query):
+	
+	return [result[0] for result in db.execute(query).fetchall()]
+
 def get_distinct_years():
 	return [
 		result[0] for result in db.execute(
@@ -90,11 +94,8 @@ def get_winning_party(state,year):
 	winner_as_list = db.execute(
 		'select party,quantity from CastedVotesFor where year = {0} and state = \"{1}\" and vote_type = \"electoral\" and quantity != 0'.format(year, state)
 		).fetchall()
-	print winner_as_list
 
 	if len(winner_as_list) > 1:
-		print len(winner_as_list)
-		print state, year
 		winning_party = winner_as_list[0]
 		for party in winner_as_list:
 			if party[1] > winning_party[1]:
