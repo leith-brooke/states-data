@@ -176,8 +176,8 @@ def get_states_from_dict(post_dict,year):
 		#'state s'
 		primary_table = 's'
 		select_statement = 'select distinct s.name'
-		last_table = 'state s'
-		from_statement = 'from state s'
+		last_table = 'State s'
+		from_statement = 'from State s'
 
 		income_criteria = post_dict.get('income')		
 		income_operator = income_criteria.get('income_operator') or '='
@@ -195,14 +195,14 @@ def get_states_from_dict(post_dict,year):
 		}
 	'''
 	if post_dict.get('election'):
-		#'castedvotesfor c'
+		#'CastedVotesFor c'
 		if not select_statement:
 			primary_table = 'c'
 			select_statement = 'select distinct c.state'
-			from_statement = 'from castedvotesfor c'
+			from_statement = 'from CastedVotesFor c'
 		else:
-			from_statement = add_inner_join(from_statement, last_table, 'castedvotesfor c')
-		last_table = 'castedvotesfor c'
+			from_statement = add_inner_join(from_statement, last_table, 'CastedVotesFor c')
+		last_table = 'CastedVotesFor c'
 
 		election_conditions = []
 		election_criteria = post_dict.get('election')
@@ -227,14 +227,14 @@ def get_states_from_dict(post_dict,year):
 		}
 	'''
 	if post_dict.get('hate'):
-		#'existedin e'
+		#'ExistedIn e'
 		if not select_statement:
 			primary_table = 'e'
 			select_statement = 'select distinct e.state'
-			from_statement = 'from existedin e'
+			from_statement = 'from ExistedIn e'
 		else:
-			from_statement = add_inner_join(from_statement, last_table, 'existedin e')
-		last_table = 'existedin e'
+			from_statement = add_inner_join(from_statement, last_table, 'ExistedIn e')
+		last_table = 'ExistedIn e'
 
 		hate_criteria = post_dict.get('hate')
 		hate_operator = hate_criteria.get('hate_operator')
@@ -244,14 +244,14 @@ def get_states_from_dict(post_dict,year):
 			select 
 				view.state 
 			from 
-				(select e1.state, sum(e1.chapters) vchapters from existedin e1 where e1.year = <YEAR> group by e1.state) view 
+				(select e1.state, sum(e1.chapters) vchapters from ExistedIn e1 where e1.year = <YEAR> group by e1.state) view 
 			where
 				view.vchapters <OPERATOR> <QUANTITY> 
 		'''
 		if primary_table == 's':
-			hate_condition = '{0}.name in (select view.vstate from (select e.state vstate, sum(chapters) vchapters from existedin e where year = {1} group by e.state) view where view.vchapters {2} {3})'.format(primary_table, year, hate_operator, hate_quantity)	
+			hate_condition = '{0}.name in (select view.vstate from (select e.state vstate, sum(chapters) vchapters from ExistedIn e where year = {1} group by e.state) view where view.vchapters {2} {3})'.format(primary_table, year, hate_operator, hate_quantity)	
 		else:
-			hate_condition = '{0}.state in (select view.vstate from (select e.state vstate, sum(chapters) vchapters from existedin e where year = {1} group by e.state) view where view.vchapters {2} {3})'.format(primary_table, year, hate_operator, hate_quantity)
+			hate_condition = '{0}.state in (select view.vstate from (select e.state vstate, sum(chapters) vchapters from ExistedIn e where year = {1} group by e.state) view where view.vchapters {2} {3})'.format(primary_table, year, hate_operator, hate_quantity)
 		conditions.append(hate_condition)
 
 	'''
@@ -264,12 +264,12 @@ def get_states_from_dict(post_dict,year):
 	if post_dict.get('education'):
 		if not select_statement:
 			select_statement = 'select distinct a.state'
-			from_statement = 'from attained a'
+			from_statement = 'from Attained a'
 			primary_table = 'a'
 		else:
-			from_statement = add_inner_join(from_statement, last_table, 'attained a')
+			from_statement = add_inner_join(from_statement, last_table, 'Attained a')
 		e_condition = None
-		if last_table == 'existedin e':
+		if last_table == 'ExistedIn e':
 			e_condition = conditions[-1]
 			conditions.remove(e_condition)
 
