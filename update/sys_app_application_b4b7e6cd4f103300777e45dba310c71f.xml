@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_app_application">
     <sys_app_application action="INSERT_OR_UPDATE">
         <active>true</active>
-        <category/>
+        <category display_value="Custom Applications">e0355b31ef303000a61d5a3615c0fb78</category>
         <description/>
         <device_type>browser</device_type>
         <hint/>
-        <name>Test App Link with Source Control 2</name>
-        <order/>
+        <name>x_304248_test_app_test app link with sou</name>
+        <order>100</order>
         <roles>x_304248_test_app.user</roles>
         <sys_class_name>sys_app_application</sys_class_name>
         <sys_created_by>admin</sys_created_by>
-        <sys_created_on>2019-03-18 15:04:42</sys_created_on>
+        <sys_created_on>2019-03-18 15:49:36</sys_created_on>
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
-        <sys_id>076d5ac94f103300777e45dba310c7ce</sys_id>
-        <sys_mod_count>3</sys_mod_count>
+        <sys_id>b4b7e6cd4f103300777e45dba310c71f</sys_id>
+        <sys_mod_count>2</sys_mod_count>
         <sys_name>Test App Link with Source Control GITHUB</sys_name>
         <sys_overrides/>
         <sys_package display_value="Test App Link with Source Control GITLAB" source="x_304248_test_app">c36d9a894f103300777e45dba310c713</sys_package>
         <sys_policy/>
         <sys_scope display_value="Test App Link with Source Control GITLAB">c36d9a894f103300777e45dba310c713</sys_scope>
-        <sys_update_name>sys_app_application_076d5ac94f103300777e45dba310c7ce</sys_update_name>
+        <sys_update_name>sys_app_application_b4b7e6cd4f103300777e45dba310c71f</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-03-18 15:50:53</sys_updated_on>
+        <sys_updated_on>2019-03-18 15:51:03</sys_updated_on>
         <title>Test App Link with Source Control GITHUB</title>
         <view_name/>
     </sys_app_application>

@@ -16,9 +16,9 @@
         <sys_id>4b6d5ac94f103300777e45dba310c7d1</sys_id>
         <sys_mod_count>0</sys_mod_count>
         <sys_name>x_304248_test_app.user</sys_name>
-        <sys_package display_value="Test App Link with Source Control 2" source="x_304248_test_app">c36d9a894f103300777e45dba310c713</sys_package>
+        <sys_package display_value="Test App Link with Source Control GITLAB" source="x_304248_test_app">c36d9a894f103300777e45dba310c713</sys_package>
         <sys_policy/>
-        <sys_scope display_value="Test App Link with Source Control 2">c36d9a894f103300777e45dba310c713</sys_scope>
+        <sys_scope display_value="Test App Link with Source Control GITLAB">c36d9a894f103300777e45dba310c713</sys_scope>
         <sys_update_name>sys_user_role_4b6d5ac94f103300777e45dba310c7d1</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
         <sys_updated_on>2019-03-18 15:04:42</sys_updated_on>
